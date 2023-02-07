@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+	@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 	body > #root > main {
 		min-height: 100vh;
 	}
@@ -92,7 +94,7 @@ h6 {
   body {
 	margin: 0 auto; 
 	 background-color: #1A120B;
-    font-family: Open-Sans, Helvetica, Sans-Serif;
+    font-family: 'Inter', sans-serif;
 	 color: #FFFFFF;
 	 display: flex;
 	 justify-content: center;
