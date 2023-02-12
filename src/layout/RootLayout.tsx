@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import Pagination from "./Pagination";
 
 const RootLayout = () => {
 	return (
@@ -9,6 +10,7 @@ const RootLayout = () => {
 			<main>
 				<Outlet />
 			</main>
+			<Pagination />
 		</>
 	);
 };

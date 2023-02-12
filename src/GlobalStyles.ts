@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-	body > #root > main {
+	body > #root  {
 		min-height: 100vh;
 	}
 
@@ -86,9 +86,28 @@ h6 {
 }
 
 	#root{
-		max-width: 1171px;
+		width: 1171px;
 		background: #171A21;
 		padding: 35px 15px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	main {
+		flex: 1 1 auto;
+		padding: 57px 10px 15px 10px;
+	}
+
+	@media (max-width: 768px){
+		main {
+			padding: 25px 10px 15px 10px;
+		}
+	}
+
+	@media (min-width: 480px){
+		main {
+			padding: 15px 5px 15px 5px;
+		}
 	}
 	
   body {
