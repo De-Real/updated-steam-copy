@@ -10,7 +10,8 @@ const RootLayout = () => {
 			<main>
 				<Outlet />
 			</main>
-			<Pagination />
+			<Pagination
+			/>
 		</>
 	);
 };

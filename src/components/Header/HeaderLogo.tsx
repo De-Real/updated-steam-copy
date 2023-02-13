@@ -6,7 +6,7 @@ import { StyledHeaderLogo } from "../styles/HeaderLogo";
 
 const HeaderLogo = () => {
 	return (
-		<Link to="/main">
+		<Link to="/main/pages/1">
 			<StyledHeaderLogo>
 				<img src={websiteLogo} alt="Website logo" />
 			</StyledHeaderLogo>
