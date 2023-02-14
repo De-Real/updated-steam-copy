@@ -10,5 +10,6 @@ export const StyledHeader = styled.header`
 	@media (max-width: 768px) {
 		flex-wrap: wrap;
 		gap: 7px;
+		min-height: 155px;
 	}
 `;
