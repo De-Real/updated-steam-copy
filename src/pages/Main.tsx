@@ -5,7 +5,6 @@ import { options } from "../api/options";
 import MainApps from "../components/MainApps/MainApps";
 
 import { SteamApplicationInterface } from "../types/fetchDataInterfaces";
-import { getNewId } from "../util/getNewId";
 
 const DUMMY_DATA = [
 	{
@@ -55,17 +54,16 @@ const DUMMY_DATA = [
 ];
 
 const Main = () => {
+	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
 	const { page } = useParams();
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 
 	const searchParam = searchParams.get("search");
-
-	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
 
 	useEffect(() => {
 		const fetchApps = async () => {
 			const response = await fetch(
-				`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+				`https://steam2.p.rapapi.com/search/${searchParam}/page/${page}`,
 				options
 			);
 			if (!response.ok) {
@@ -83,4 +81,3 @@ const Main = () => {
 };
 
 export default Main;
-

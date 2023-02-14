@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import leftArrowIcon from "../assets/icon-pagination-arrow-left.svg";
 import rightArrowIcon from "../assets/icon-pagination-arrow-right.svg";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	PaginationArrow,
 	PaginationNumber,
@@ -23,6 +23,9 @@ const Pagination = () => {
 		if (searchParams) {
 			url += `?${searchParams}`;
 		}
+
+		setCurrentPage(currentSlice + 1);
+
 		navigate(url);
 		//We skip here deps warning because 'navigate' will cause updates and bugs
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,15 +90,16 @@ const Pagination = () => {
 				</PaginationArrow>
 
 				{slicedPageNumbers.map((number) => {
-					const clssName = `pagination__page-number ${
-						currentPage === number ? "choosen" : ""
-					}`;
+					console.log(page, number);
+					const isChoosen = Number(page) === number ? true : false;
+
+					console.log(isChoosen);
 
 					return (
 						<PaginationNumber
 							key={number}
 							onClick={() => paginate(number)}
-							className={clssName}
+							choosen={isChoosen}
 						>
 							{number}
 						</PaginationNumber>

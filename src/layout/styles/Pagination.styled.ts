@@ -22,17 +22,18 @@ export const PaginationArrow = styled.li`
 	background: #5b5e63;
 `;
 
-export const PaginationNumber = styled(PaginationArrow)`
+export const PaginationNumber = styled(PaginationArrow)<{ choosen: boolean }>`
 	font-size: 12px;
 	line-height: 1.2;
 	color: white;
+	background-color: ${(props) => (props.choosen ? "#17323a" : "inherit")};
 
 	&:hover {
 		color: #fff;
 		background: #30484f;
 	}
 
-	&.choosen {
-		background: #17323a;
-	}
+	/* &.choosen {
+		/* background: #17323a;
+	} */
 `;

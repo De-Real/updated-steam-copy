@@ -62,11 +62,28 @@ export const AppItemPrice = styled.p`
 	line-height: 1.2;
 `;
 
-export const AppItemLike = styled.p``;
+export const AppItemLike = styled.p`
+	width: 25px;
+	height: 25px;
+	transition: transform 0.1s ease 0s;
+
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
+	&:hover {
+		transform: scale(1.25);
+	}
+`;
 
 export const AppItemPlay = styled.a`
 	position: absolute;
 	top: 76px;
 	right: 17px;
 	cursor: pointer;
+	transition: transform 0.25s ease 0s;
+	&:hover {
+		transform: scale(1.1);
+	}
 `;
