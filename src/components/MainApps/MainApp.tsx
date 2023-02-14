@@ -24,29 +24,27 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 	return (
 		<Grid lg={3} md={4} sm={6} xs={12} item>
 			<StyledAppItem>
-				<div>
-					<AppItemPicture>
-						<img src={imgUrl} alt={title} />
-					</AppItemPicture>
-					<AppItemInfo>
-						<AppItemTitle>{title} </AppItemTitle>
-						<AppItemDate>{released}</AppItemDate>
-						<AppItemControl>
-							<AppItemPrice>{price}</AppItemPrice>
-							<p className="main-item__like">
-								<img
-									src={isLiked ? iconLiked : iconUnliked}
-									alt={`${isLiked ? "Unliked" : "Unliked"} icon`}
-								/>
-							</p>
-						</AppItemControl>
-					</AppItemInfo>
-					{isLiked && (
-						<AppItemPlay href={url}>
-							<img src={playButton} alt="Play game"></img>
-						</AppItemPlay>
-					)}
-				</div>
+				<AppItemPicture>
+					<img src={imgUrl} alt={title} />
+				</AppItemPicture>
+				<AppItemInfo>
+					<AppItemTitle>{title} </AppItemTitle>
+					<AppItemDate>{released}</AppItemDate>
+					<AppItemControl>
+						<AppItemPrice>{price}</AppItemPrice>
+						<p className="main-item__like">
+							<img
+								src={isLiked ? iconLiked : iconUnliked}
+								alt={`${isLiked ? "Unliked" : "Unliked"} icon`}
+							/>
+						</p>
+					</AppItemControl>
+				</AppItemInfo>
+				{isLiked && (
+					<AppItemPlay href={url}>
+						<img src={playButton} alt="Play game"></img>
+					</AppItemPlay>
+				)}
 			</StyledAppItem>
 		</Grid>
 	);

@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import NotFound from "./layout/NotFound";
 
 import RootLayout from "./layout/RootLayout";
-import Main, { loader as appsLoader } from "./pages/Main";
+import Main  from "./pages/Main";
 
 export const router = createBrowserRouter([
 	{
@@ -19,7 +19,7 @@ export const router = createBrowserRouter([
 					{
 						path: "pages/:page",
 						element: <Main />,
-						loader: appsLoader,
+						// loader: appsLoader,
 						shouldRevalidate: () => false,
 					},
 				],

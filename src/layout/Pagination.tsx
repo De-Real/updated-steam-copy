@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import leftArrowIcon from "../assets/icon-pagination-arrow-left.svg";
 import rightArrowIcon from "../assets/icon-pagination-arrow-right.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
 	PaginationArrow,
 	PaginationNumber,
@@ -18,8 +18,12 @@ const Pagination = () => {
 	const navigate = useNavigate();
 
 	const paginate = useCallback((pageNumber: number) => {
-		setCurrentPage(pageNumber);
-		navigate(`/main/pages/${pageNumber}`);
+		const searchParams = window.location.href.split("?")[1];
+		let url = `/main/pages/${pageNumber}`;
+		if (searchParams) {
+			url += `?${searchParams}`;
+		}
+		navigate(url);
 		//We skip here deps warning because 'navigate' will cause updates and bugs
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

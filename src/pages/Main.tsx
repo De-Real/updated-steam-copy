@@ -1,10 +1,5 @@
-import React from "react";
-import {
-	JsonFunction,
-	LoaderFunctionArgs,
-	useLoaderData,
-	useParams,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
 import { json } from "stream/consumers";
 import { options } from "../api/options";
 import MainApps from "../components/MainApps/MainApps";
@@ -61,28 +56,31 @@ const DUMMY_DATA = [
 
 const Main = () => {
 	const { page } = useParams();
-	const applications = useLoaderData() as SteamApplicationInterface[];
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const searchParam = searchParams.get("search");
+
+	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
+
+	useEffect(() => {
+		const fetchApps = async () => {
+			const response = await fetch(
+				`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+				options
+			);
+			if (!response.ok) {
+				throw new Error("Error");
+			}
+
+			const results = await response.json();
+			setApps(results);
+		};
+
+		// fetchApps();
+	}, [searchParam, page]);
 
 	return <MainApps apps={DUMMY_DATA} />;
 };
 
 export default Main;
 
-export const loader = async ({ params }: LoaderFunctionArgs) => {
-	console.log(params.page);
-	// const response = await fetch(
-	// 	`https://steam2.p.rapidapi.com/search/Counter/page/${params.page}`,
-	// 	options
-	// );
-
-	const response = await fetch("https://jsonplaceholder.typicode.com/todos");
-
-	console.log(response);
-
-	if (!response.ok) {
-		console.log(response);
-		throw new Error("Something went wrong");
-	}
-
-	return response;
-};
