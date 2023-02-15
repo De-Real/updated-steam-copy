@@ -90,11 +90,7 @@ const Pagination = () => {
 				</PaginationArrow>
 
 				{slicedPageNumbers.map((number) => {
-					console.log(page, number);
 					const isChoosen = Number(page) === number ? true : false;
-
-					console.log(isChoosen);
-
 					return (
 						<PaginationNumber
 							key={number}
