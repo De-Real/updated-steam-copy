@@ -8,6 +8,22 @@ type filterObjType = {
 	parameter: parameterFilterType;
 };
 
+const sortFn = (par: sortFilterType, num1: number, num2: number) => {
+	const isBiggerToLower = par === "bigger-to-lower";
+
+	if (isNaN(num1)) {
+		return isBiggerToLower ? 1 : -1;
+	}
+
+	if (isNaN(num2)) {
+		return isBiggerToLower ? -1 : 1;
+	}
+
+	const numDifference = num2 - num1;
+
+	return isBiggerToLower ? numDifference : -numDifference;
+};
+
 export const filterApps = (appsArray: SteamApplicationInterface[]) => {
 	const searchParams = new URL(window.location.href).searchParams;
 
@@ -39,59 +55,18 @@ export const filterApps = (appsArray: SteamApplicationInterface[]) => {
 		}
 	}
 
-	console.log("CALLED", filterParameters);
+	if (filterParameters.parameter === "price") {
+		return appsArray.sort((a, b) => {
+			const priceOne = parseFloat(a.price || "");
+			const priceTwo = parseFloat(b.price || "");
 
-	if (filterParameters.sort === "bigger-to-lower") {
-		if (filterParameters.parameter === "price") {
-			return appsArray.sort((a, b) => {
-				const priceOne = parseFloat(a.price || "");
-				const priceTwo = parseFloat(b.price || "");
-				if (isNaN(priceOne)) {
-					return 1;
-				}
-				if (isNaN(priceTwo)) {
-					return -1;
-				}
-				return priceTwo - priceOne;
-			});
-		} else {
-			return appsArray.sort((a, b) => {
-				const dateOne = Date.parse(a.released);
-				const dateTwo = Date.parse(b.released);
-				if (isNaN(dateOne)) {
-					return 1;
-				}
-				if (isNaN(dateTwo)) {
-					return -1;
-				}
-				return dateTwo - dateOne;
-			});
-		}
+			return sortFn(filterParameters.sort, priceOne, priceTwo);
+		});
 	} else {
-		if (filterParameters.parameter === "price") {
-			return appsArray.sort((a, b) => {
-				const priceOne = parseFloat(a.price || "");
-				const priceTwo = parseFloat(b.price || "");
-				if (isNaN(priceOne)) {
-					return -1;
-				}
-				if (isNaN(priceTwo)) {
-					return 1;
-				}
-				return priceOne - priceTwo;
-			});
-		} else {
-			return appsArray.sort((a, b) => {
-				const dateOne = Date.parse(a.released);
-				const dateTwo = Date.parse(b.released);
-				if (isNaN(dateOne)) {
-					return -1;
-				}
-				if (isNaN(dateTwo)) {
-					return 1;
-				}
-				return dateOne - dateTwo;
-			});
-		}
+		return appsArray.sort((a, b) => {
+			const dateOne = Date.parse(a.released);
+			const dateTwo = Date.parse(b.released);
+			return sortFn(filterParameters.sort, dateOne, dateTwo);
+		});
 	}
 };
