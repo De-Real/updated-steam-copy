@@ -41,6 +41,8 @@ const HeaderToggle = () => {
 	}, [isOpen]);
 
 	const setFilterParameter = (par: SortValues) => {
+		if (searchParams.get(QUERY_PARAMETER) === par) return;
+
 		if (!searchParams.has(QUERY_PARAMETER)) {
 			searchParams.append(QUERY_PARAMETER, par);
 		} else {
