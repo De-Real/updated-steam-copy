@@ -3,9 +3,6 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 	@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
-	body > #root  {
-		min-height: 100vh;
-	}
 
 	* {
 	padding: 0;
@@ -118,6 +115,12 @@ h6 {
 	 display: flex;
 	 justify-content: center;
   }
+
+  body > #root  {
+		min-height: 100vh;
+		background: #171A21;
+		overflow-y: auto;
+	}
 `;
 
 export default GlobalStyle;

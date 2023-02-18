@@ -77,7 +77,7 @@ export const AppItemLike = styled.p`
 	}
 `;
 
-export const AppItemPlay = styled.a`
+export const AppItemPlay = styled.div`
 	position: absolute;
 	top: 76px;
 	right: 17px;

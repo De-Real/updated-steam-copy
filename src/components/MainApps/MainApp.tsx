@@ -21,6 +21,7 @@ import {
 	removeLikedApp,
 	selectLikeList,
 } from "../../store/likeListSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 const formatPrice = (price: string) => {
 	const parsedPrice = parseFloat(price.replace(",", "."));
@@ -33,6 +34,7 @@ const formatPrice = (price: string) => {
 const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 	const { imgUrl, title, released, price, url, appId } = app;
 
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const likeList = useAppSelector(selectLikeList);
 
@@ -42,7 +44,8 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 		isLiked = true;
 	}
 
-	const setLikeStatus = () => {
+	const setLikeStatus = (event: React.FormEvent<HTMLElement>) => {
+		event.stopPropagation();
 		if (isLiked) {
 			dispatch(removeLikedApp(appId));
 			return;
@@ -50,10 +53,19 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 		dispatch(addLikedApp(appId));
 	};
 
+	const goToDetailedApp = (event: React.FormEvent<HTMLElement>) => {
+		navigate(`detailed/${appId}`);
+	};
+
+	const navigateSteamGame = (event: React.FormEvent<HTMLElement>) => {
+		event.stopPropagation();
+		window.location.href = url;
+	};
+
 	return (
 		<>
 			<Grid lg={3} md={4} sm={6} xs={12} item>
-				<StyledAppItem>
+				<StyledAppItem onClick={goToDetailedApp}>
 					<AppItemPicture>
 						<img src={imgUrl} alt={title} />
 					</AppItemPicture>
@@ -75,7 +87,7 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 						</AppItemControl>
 					</AppItemInfo>
 					{isLiked && (
-						<AppItemPlay href={url}>
+						<AppItemPlay onClick={navigateSteamGame}>
 							<img src={playButton} alt="Play game"></img>
 						</AppItemPlay>
 					)}

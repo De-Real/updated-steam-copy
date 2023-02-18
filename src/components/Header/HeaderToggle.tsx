@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import orderSelectionIcon from "../../assets/order-selection.svg";
 
 import {
@@ -15,6 +15,7 @@ const HeaderToggle = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const param = searchParams.get(QUERY_PARAMETER);
+	const { pageId } = useParams();
 
 	useEffect(() => {
 		const isValid = param === "bigger-to-lower" || param === "lower-to-bigger";
@@ -43,12 +44,13 @@ const HeaderToggle = () => {
 	const setFilterParameter = (par: SortValues) => {
 		if (searchParams.get(QUERY_PARAMETER) === par) return;
 
+		if (pageId) return;
+
 		if (!searchParams.has(QUERY_PARAMETER)) {
 			searchParams.append(QUERY_PARAMETER, par);
 		} else {
 			searchParams.set(QUERY_PARAMETER, par);
 		}
-
 		setSearchParams(searchParams);
 	};
 

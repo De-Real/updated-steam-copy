@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { getAllSearchParams } from "../../util/getAllSearchParams";
 import {
 	StyledHeaderButtonGroup,
@@ -13,6 +13,7 @@ const HeaderButtonGroup = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const param = searchParams.get(QUERY_PARAMETER);
+	const { pageId } = useParams();
 
 	useEffect(() => {
 		const isValid = param === "like-list" || param === "searching";
@@ -32,6 +33,8 @@ const HeaderButtonGroup = () => {
 		if (isLiked === likedList) return;
 
 		setIsLiked(likedList);
+
+		if (pageId) return;
 
 		const parameterValue = likedList ? "like-list" : "searching";
 

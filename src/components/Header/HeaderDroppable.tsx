@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { StyledHeaderDroppable } from "../styles/HeaderDroppable";
 
 type SelectType = "price" | "publish-date";
@@ -10,6 +10,7 @@ const HeaderDroppable = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const paramValue = searchParams.get(QUERY_PARAMETER);
+	const { pageId } = useParams();
 
 	//Check whether value while mounting is correct, if not delete query parameter from url
 	useEffect(() => {
@@ -26,6 +27,8 @@ const HeaderDroppable = () => {
 	const valueChange = (event: React.FormEvent<HTMLSelectElement>) => {
 		const selectValue = event.currentTarget.value as SelectType;
 		setValue(selectValue);
+
+		if (pageId) return;
 
 		if (!searchParams.has(QUERY_PARAMETER)) {
 			searchParams.append(QUERY_PARAMETER, selectValue);
