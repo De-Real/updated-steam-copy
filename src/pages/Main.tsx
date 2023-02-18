@@ -3,6 +3,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { json } from "stream/consumers";
 import { options } from "../api/options";
 import MainApps from "../components/MainApps/MainApps";
+import ErrorWrapper from "../components/UI/ErrorWrapper";
+import Loading from "../components/UI/Loading";
+import useFetch from "../hooks/useFetch";
 
 import { SteamApplicationInterface } from "../types/fetchDataInterfaces";
 
@@ -76,30 +79,52 @@ const DUMMY_DATA = [
 ];
 
 const Main = () => {
-	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
 	const { page } = useParams();
 	const [searchParams] = useSearchParams();
-
 	const searchParam = searchParams.get("search");
 
-	useEffect(() => {
-		const fetchApps = async () => {
-			const response = await fetch(
-				`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
-				options
+	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
+	const { data, error } = useFetch<SteamApplicationInterface[]>(
+		`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+		options
+	);
+
+	console.log(data, error);
+
+	// useEffect(() => {
+	// 	const fetchApps = async () => {
+	// 		const response = await fetch(
+	// 			`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+	// 			options
+	// 		);
+	// 		if (!response.ok) {
+	// 			throw new Error("Error");
+	// 		}
+
+	// 		const results = await response.json();
+	// 		setApps(results);
+	// 	};
+
+	// 	// fetchApps();
+	// }, [searchParam, page]);
+
+	if (error) {
+		if (error.message === "No data fetched.") {
+			return (
+				<ErrorWrapper
+					error={{ title: "Error occured!", message: "No data found." }}
+				/>
 			);
-			if (!response.ok) {
-				throw new Error("Error");
-			}
+		} else {
+			throw new Error(error.message);
+		}
+	}
 
-			const results = await response.json();
-			setApps(results);
-		};
+	if (!data || (data.length === 0 && !error)) {
+		return <Loading />;
+	}
 
-		// fetchApps();
-	}, [searchParam, page]);
-
-	return <MainApps apps={DUMMY_DATA} />;
+	return <MainApps apps={data} />;
 };
 
 export default Main;
