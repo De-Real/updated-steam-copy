@@ -89,7 +89,9 @@ const Main = () => {
 
 	const [apps, setApps] = useState<SteamApplicationInterface[]>([]);
 	const { data, error } = useFetch<SteamApplicationInterface[]>(
-		`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+		`https://steam2.p.rapidapi.com/search/${
+			searchParam || "Counter"
+		}/page/${page}`,
 		options
 	);
 
