@@ -7,7 +7,11 @@ import ErrorWrapper from "../components/UI/ErrorWrapper";
 import Loading from "../components/UI/Loading";
 import useFetch from "../hooks/useFetch";
 
+import Box from "@mui/material/Box";
+import LinearProgress from "@mui/material/LinearProgress";
+
 import { SteamApplicationInterface } from "../types/fetchDataInterfaces";
+import LinearLoading from "../components/UI/LinearLoading";
 
 const DUMMY_DATA = [
 	{
@@ -124,7 +128,12 @@ const Main = () => {
 		return <Loading />;
 	}
 
-	return <MainApps apps={data} />;
+	return (
+		<>
+			<LinearLoading />
+			<MainApps apps={data} />
+		</>
+	);
 };
 
 export default Main;

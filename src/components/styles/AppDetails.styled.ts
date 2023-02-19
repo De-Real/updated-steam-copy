@@ -1,6 +1,7 @@
 import styled from "styled-components";
 export const StyledAppDetails = styled.section`
 	padding: 15px 10px 10px 10px;
+	
 
 	@media (max-width: 420px) {
 		padding: 0;

@@ -21,7 +21,8 @@ import {
 	removeLikedApp,
 	selectLikeList,
 } from "../../store/likeListSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { getNewId } from "../../util/getNewId";
 
 const formatPrice = (price: string) => {
 	const parsedPrice = parseFloat(price.replace(",", "."));
@@ -44,6 +45,8 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 		isLiked = true;
 	}
 
+	const { state } = useNavigation();
+
 	const setLikeStatus = (event: React.FormEvent<HTMLElement>) => {
 		event.stopPropagation();
 		if (isLiked) {
@@ -54,7 +57,10 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 	};
 
 	const goToDetailedApp = (event: React.FormEvent<HTMLElement>) => {
-		navigate(`detailed/${appId}`);
+		if (state === "loading") {
+			return;
+		}
+		navigate(`detailed/${appId || getNewId()}`);
 	};
 
 	const navigateSteamGame = (event: React.FormEvent<HTMLElement>) => {
