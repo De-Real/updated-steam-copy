@@ -18,40 +18,48 @@ const Main = () => {
 	const [searchParams] = useSearchParams();
 	const searchParam = searchParams.get("search");
 
-	const { data, error } = useFetch<SteamApplicationInterface[]>(
-		`https://steam2.p.rapidapi.com/search/Counter/page/1`,
-		options
-	);
+	// const { data, error } = useFetch<SteamApplicationInterface[]>(
+	// 	`https://steam2.p.rapidapi.com/search/Counter/page/1`,
+	// 	options
+	// );
+
+	const [error, setError] = useState<string>();
+	const [data, setData] = useState<SteamApplicationInterface[]>([]);
 
 	console.log(data, error);
 
-	// useEffect(() => {
-	// 	const fetchApps = async () => {
-	// 		const response = await fetch(
-	// 			`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
-	// 			options
+	useEffect(() => {
+		const fetchApps = async () => {
+			const response = await fetch(
+				`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+				options
+			);
+			if (!response.ok) {
+				setError(response.statusText);
+				// throw new Error("Error");
+			}
+
+			const results = await response.json();
+			setData(results);
+		};
+
+		fetchApps();
+	}, [searchParam, page]);
+
+	// if (error) {
+	// 	if (error.message === "No data fetched.") {
+	// 		return (
+	// 			<ErrorWrapper
+	// 				error={{ title: "Error occured!", message: "No data found." }}
+	// 			/>
 	// 		);
-	// 		if (!response.ok) {
-	// 			throw new Error("Error");
-	// 		}
-
-	// 		const results = await response.json();
-	// 		setApps(results);
-	// 	};
-
-	// 	// fetchApps();
-	// }, [searchParam, page]);
+	// 	} else {
+	// 		throw new Error(error.message);
+	// 	}
+	// }
 
 	if (error) {
-		if (error.message === "No data fetched.") {
-			return (
-				<ErrorWrapper
-					error={{ title: "Error occured!", message: "No data found." }}
-				/>
-			);
-		} else {
-			throw new Error(error.message);
-		}
+		throw new Error(error);
 	}
 
 	if (!data || (data.length === 0 && !error)) {
