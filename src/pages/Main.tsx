@@ -19,9 +19,7 @@ const Main = () => {
 	const searchParam = searchParams.get("search");
 
 	const { data, error } = useFetch<SteamApplicationInterface[]>(
-		`https://steam2.p.rapidapi.com/search/${searchParam || "Counter"}/page/${
-			page || 1
-		}`,
+		`https://steam2.p.rapidapi.com/search/Counter/page/1`,
 		options
 	);
 
