@@ -31,7 +31,7 @@ const Main = () => {
 	useEffect(() => {
 		const fetchApps = async () => {
 			const response = await fetch(
-				`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
+				`https://steam2.p.rapidapi.com/search/Counter/page/1`,
 				options
 			);
 			if (!response.ok) {
