@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/updated-steam-copy/static/css/main.e6c13ad2.css",
-    "main.js": "/updated-steam-copy/static/js/main.b2d16861.js",
+    "main.js": "/updated-steam-copy/static/js/main.0540502c.js",
     "static/media/steam-logo.png": "/updated-steam-copy/static/media/steam-logo.63e280acfdc8bef0b242.png",
     "static/media/logo.svg": "/updated-steam-copy/static/media/logo.df75ec0409ff69de1b087c739ea2fc8e.svg",
     "static/media/order-selection.svg": "/updated-steam-copy/static/media/order-selection.32e33c6b0378f47621c8b8482dcf1aef.svg",
@@ -13,10 +13,10 @@
     "static/media/icon-pagination-arrow-right.svg": "/updated-steam-copy/static/media/icon-pagination-arrow-right.d98d8513a91f9481d3a89109feb56d08.svg",
     "static/media/icon-pagination-arrow-left.svg": "/updated-steam-copy/static/media/icon-pagination-arrow-left.d6e0a2bed389c844d08986ac6c8be6f1.svg",
     "main.e6c13ad2.css.map": "/updated-steam-copy/static/css/main.e6c13ad2.css.map",
-    "main.b2d16861.js.map": "/updated-steam-copy/static/js/main.b2d16861.js.map"
+    "main.0540502c.js.map": "/updated-steam-copy/static/js/main.0540502c.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.b2d16861.js"
+    "static/js/main.0540502c.js"
   ]
 }
