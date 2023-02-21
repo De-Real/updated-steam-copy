@@ -36,15 +36,10 @@ const Main = () => {
 		}
 	}
 
-	const isLoading = !data || (data.length === 0 && !error);
-
-	// const data = [] as SteamApplicationInterface[];
-	// const isLoading = true;
-
 	return (
 		<>
 			<LinearLoading />
-			<MainApps apps={data} isLoading={isLoading} />
+			<MainApps apps={data} />
 		</>
 	);
 };

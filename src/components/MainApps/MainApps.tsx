@@ -6,16 +6,14 @@ import { filterApps } from "../../util/filterApps";
 import { getNewId } from "../../util/getNewId";
 import { StyledGrid } from "../styles/Grid.styled";
 import { NoAppFound } from "../styles/NoAppFound.styled";
-import SkeletonLoading from "../UI/SkeletonLoading";
 import MainApp from "./MainApp";
 import RenderLoading from "./RenderLoading";
 
-const MainApps = ({
-	apps,
-}: {
+type MainAppsProps = {
 	apps: SteamApplicationInterface[] | undefined;
-	isLoading: boolean;
-}) => {
+};
+
+const MainApps = ({ apps }: MainAppsProps) => {
 	const [searchParams] = useSearchParams();
 	const likeList = useAppSelector(selectLikeList);
 

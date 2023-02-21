@@ -21,16 +21,9 @@ import {
 	removeLikedApp,
 	selectLikeList,
 } from "../../store/likeListSlice";
-import { Link, useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate, useNavigation } from "react-router-dom";
 import { getNewId } from "../../util/getNewId";
-
-const formatPrice = (price: string) => {
-	const parsedPrice = parseFloat(price.replace(",", "."));
-	if (isNaN(parsedPrice)) {
-		return price || "Unprovided price";
-	}
-	return parsedPrice + "€";
-};
+import { formatPrice } from "../../util/formatPrice";
 
 const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 	const { imgUrl, title, released, price, url, appId } = app;
@@ -53,13 +46,12 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 			dispatch(removeLikedApp(appId));
 			return;
 		}
+
 		dispatch(addLikedApp(appId));
 	};
 
-	const goToDetailedApp = (event: React.FormEvent<HTMLElement>) => {
-		if (state === "loading") {
-			return;
-		}
+	const goToDetailedApp = () => {
+		if (state === "loading") return;
 		navigate(`detailed/${appId || getNewId()}`);
 	};
 
@@ -69,37 +61,33 @@ const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
 	};
 
 	return (
-		<>
-			<Grid lg={3} md={4} sm={6} xs={12} item>
-				<StyledAppItem onClick={goToDetailedApp}>
-					<AppItemPicture>
-						<img src={imgUrl} alt={title} />
-					</AppItemPicture>
-					<AppItemInfo>
-						<AppItemTitle>
-							{title || "Unprovided title of the app"}
-						</AppItemTitle>
-						<AppItemDate>
-							{released || "Release date was not provided"}
-						</AppItemDate>
-						<AppItemControl>
-							<AppItemPrice>{formatPrice(price.trim() || "")}</AppItemPrice>
-							<AppItemLike onClick={setLikeStatus}>
-								<img
-									src={isLiked ? iconLiked : iconUnliked}
-									alt={`${isLiked ? "Unliked" : "Unliked"} icon`}
-								/>
-							</AppItemLike>
-						</AppItemControl>
-					</AppItemInfo>
-					{isLiked && (
-						<AppItemPlay onClick={navigateSteamGame}>
-							<img src={playButton} alt="Play game"></img>
-						</AppItemPlay>
-					)}
-				</StyledAppItem>
-			</Grid>
-		</>
+		<Grid lg={3} md={4} sm={6} xs={12} item>
+			<StyledAppItem onClick={goToDetailedApp}>
+				<AppItemPicture>
+					<img src={imgUrl} alt={title} />
+				</AppItemPicture>
+				<AppItemInfo>
+					<AppItemTitle>{title || "Unprovided title of the app"}</AppItemTitle>
+					<AppItemDate>
+						{released || "Release date was not provided"}
+					</AppItemDate>
+					<AppItemControl>
+						<AppItemPrice>{formatPrice(price.trim() || "")}</AppItemPrice>
+						<AppItemLike onClick={setLikeStatus}>
+							<img
+								src={isLiked ? iconLiked : iconUnliked}
+								alt={`${isLiked ? "Unliked" : "Unliked"} icon`}
+							/>
+						</AppItemLike>
+					</AppItemControl>
+				</AppItemInfo>
+				{isLiked && (
+					<AppItemPlay onClick={navigateSteamGame}>
+						<img src={playButton} alt="Play game"></img>
+					</AppItemPlay>
+				)}
+			</StyledAppItem>
+		</Grid>
 	);
 };
 
