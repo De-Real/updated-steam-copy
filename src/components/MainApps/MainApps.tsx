@@ -6,13 +6,24 @@ import { filterApps } from "../../util/filterApps";
 import { getNewId } from "../../util/getNewId";
 import { StyledGrid } from "../styles/Grid.styled";
 import { NoAppFound } from "../styles/NoAppFound.styled";
+import SkeletonLoading from "../UI/SkeletonLoading";
 import MainApp from "./MainApp";
+import RenderLoading from "./RenderLoading";
 
-const MainApps = ({ apps }: { apps: SteamApplicationInterface[] }) => {
-	let filteredApps = filterApps(apps);
-
+const MainApps = ({
+	apps,
+}: {
+	apps: SteamApplicationInterface[] | undefined;
+	isLoading: boolean;
+}) => {
 	const [searchParams] = useSearchParams();
 	const likeList = useAppSelector(selectLikeList);
+
+	if (!apps || apps.length === 0) {
+		return <RenderLoading />;
+	}
+
+	let filteredApps = filterApps(apps);
 
 	const isLikeListParameter = searchParams.get("priority") === "like-list";
 

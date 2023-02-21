@@ -1,5 +1,8 @@
-import React, { useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useCallback, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import errorPicture from "../../assets/main-error.jpg";
+import { StyledErrorWrapper } from "../styles/ErrorWrapper.styled";
 
 type ErrorWrapperProps = {
 	error: { message: string; title: string };
@@ -7,25 +10,42 @@ type ErrorWrapperProps = {
 
 const ErrorWrapper = ({ error }: ErrorWrapperProps) => {
 	const navigate = useNavigate();
+	const { page } = useParams();
+	const [shouldRedirect, setShouldRedirect] = useState(true);
+
+	useEffect(() => setShouldRedirect(page !== "1"), [shouldRedirect, page]);
 
 	const redirectUser = useCallback(() => {
 		const searchParams = new URL(window.location.href).searchParams;
 
-		navigate(`/main/pages/1?${searchParams.toString()}`);
+		if (shouldRedirect) {
+			navigate(`/main/pages/1?${searchParams.toString()}`);
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
+		if (!shouldRedirect) return;
+
 		const timeout = setTimeout(() => redirectUser(), 7500);
 
 		return () => clearTimeout(timeout);
-	}, [redirectUser]);
+	}, [redirectUser, shouldRedirect]);
+
+	const actionHint = shouldRedirect ? (
+		<p> You will be redirected in 10 seconds</p>
+	) : (
+		<p> Please try to change search params</p>
+	);
 
 	return (
-		<div style={{ textAlign: "center" }}>
-			<p>{error.title}</p>
+		<StyledErrorWrapper>
+			<h2>{error.title}</h2>
 			<p>{error.message}</p>
-			<p> You will be redirected in 10 seconds</p>
-		</div>
+			{actionHint}
+			<img src={errorPicture} alt="Error"></img>
+		</StyledErrorWrapper>
 	);
 };
 

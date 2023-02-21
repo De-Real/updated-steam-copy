@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import searchIcon from "../../assets/icon-search.svg";
 import { getAllSearchParams } from "../../util/getAllSearchParams";
 import { StyledForm } from "../styles/HeaderSearch.styled";
@@ -11,6 +11,10 @@ const HeaderSearch = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const { pageId } = useParams();
+
+	const { page } = useParams();
+
+	const navigate = useNavigate();
 
 	const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -31,7 +35,12 @@ const HeaderSearch = () => {
 			} else {
 				searchParams.set(QUERY_PARAMETER, inputValue);
 			}
+
 			setSearchParams(searchParams);
+
+			if (page !== "1") {
+				navigate("/main/pages/1?" + searchParams.toString());
+			}
 		}
 	};
 

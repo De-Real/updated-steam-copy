@@ -17,13 +17,6 @@ const Pagination = () => {
 
 	const navigate = useNavigate();
 
-	// useEffect(() => {
-	// 	if (currentPage.toString() !== page && page) {
-	// 		paginate(+page);
-	// 		setCurrentSlice(+page);
-	// 	}
-	// }, [page]);
-
 	const paginate = useCallback((pageNumber: number) => {
 		const searchParams = window.location.href.split("?")[1];
 		let url = `/main/pages/${pageNumber}`;
