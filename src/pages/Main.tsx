@@ -10,7 +10,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 import { SteamApplicationInterface } from "../types/fetchDataInterfaces";
 import LinearLoading from "../components/UI/LinearLoading";
-import SkeletonLoading from "../components/UI/SkeletonLoading";
 
 const Main = () => {
 	const { page } = useParams();

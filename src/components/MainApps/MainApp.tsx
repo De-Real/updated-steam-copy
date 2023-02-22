@@ -24,35 +24,39 @@ import {
 import { useNavigate, useNavigation } from "react-router-dom";
 import { getNewId } from "../../util/getNewId";
 import { formatPrice } from "../../util/formatPrice";
+import { useEffect, useState } from "react";
 
 const MainApp = ({ app }: { app: SteamApplicationInterface }) => {
-	const { imgUrl, title, released, price, url, appId } = app;
+	const { imgUrl, title, released, price, url, appId = getNewId() } = app;
+
+	const [isLiked, setIsLiked] = useState(false);
 
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const likeList = useAppSelector(selectLikeList);
 
-	let isLiked = false;
-
-	if (likeList.includes(appId)) {
-		isLiked = true;
-	}
+	useEffect(() => {
+		if (likeList.includes(appId)) {
+			setIsLiked(true);
+		}
+	}, [appId, likeList]);
 
 	const { state } = useNavigation();
 
 	const setLikeStatus = (event: React.FormEvent<HTMLElement>) => {
 		event.stopPropagation();
+		setIsLiked((curState) => !curState);
+
 		if (isLiked) {
 			dispatch(removeLikedApp(appId));
-			return;
+		} else {
+			dispatch(addLikedApp(appId));
 		}
-
-		dispatch(addLikedApp(appId));
 	};
 
 	const goToDetailedApp = () => {
 		if (state === "loading") return;
-		navigate(`detailed/${appId || getNewId()}`);
+		navigate(`detailed/${appId}`);
 	};
 
 	const navigateSteamGame = (event: React.FormEvent<HTMLElement>) => {

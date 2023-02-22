@@ -8,7 +8,6 @@ const AppDetails = () => {
 	const detailedItem =
 		useLoaderData() as DetailedSteamApplicationInterface | null;
 
-	console.log(detailedItem);
 	const { pageId } = useParams();
 
 	let isValid = pageId?.split("-")[0] !== "none";
