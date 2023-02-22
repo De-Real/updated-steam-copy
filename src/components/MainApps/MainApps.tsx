@@ -18,11 +18,11 @@ const MainApps = ({ apps }: MainAppsProps) => {
 	const [searchParams] = useSearchParams();
 	const likeList = useAppSelector(selectLikeList);
 
-	if (!apps || apps.length === 0) {
-		return <RenderLoading />;
-	}
+	// if (!apps || apps.length === 0) {
+	// 	return <RenderLoading />;
+	// }
 
-	let filteredApps = filterApps(apps);
+	let filteredApps = filterApps(apps as SteamApplicationInterface[]);
 
 	const isLikeListParameter = searchParams.get("priority") === "like-list";
 

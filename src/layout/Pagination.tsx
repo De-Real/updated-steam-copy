@@ -9,59 +9,69 @@ import {
 } from "./styles/Pagination.styled";
 import { scrollTop } from "../util/scrollTop";
 
+const ARR_LENGTH = 20;
+
 const Pagination = () => {
 	const { page } = useParams();
 
-	const [currentPage, setCurrentPage] = useState(0);
-	const [currentSlice, setCurrentSlice] = useState(0);
+	const numberPage = page ? +page : undefined;
+
+	const [currentSlice, setCurrentSlice] = useState(1);
+
+	//First loading state
 	const [isForced, setIsForced] = useState(true);
 
 	const navigate = useNavigate();
 
 	const paginate = useCallback((pageNumber: number) => {
 		const searchParams = window.location.href.split("?")[1];
+
 		let url = `/main/pages/${pageNumber}`;
+
 		if (searchParams) {
 			url += `?${searchParams}`;
 		}
 
-		setCurrentPage(currentSlice + 1);
 		scrollTop();
-
 		navigate(url);
 
 		//We skip here deps warning because 'navigate' will cause updates and bugs
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const pageNumbers: number[] = [];
+	const pageNumbers = Array.from({ length: ARR_LENGTH }, (_, i) => i + 1);
 
-	for (let i = 1; i <= 20; i++) {
-		pageNumbers.push(i);
-	}
+	const { length: pageNumberLength } = pageNumbers;
 
+	//First loading data provider
 	useEffect(() => {
-		if (!page) {
+		if (!numberPage) {
 			return;
 		}
 
-		if (+page > pageNumbers.length) {
+		//If page in url is bigger than max possible page
+		if (numberPage > pageNumberLength) {
 			setCurrentSlice(0);
 			paginate(1);
-		} else if (isForced) {
-			if (+page + 2 >= pageNumbers.length) {
-				setCurrentSlice(+page - 2);
-			} else {
-				setCurrentSlice(+page - 1);
-				setIsForced(false);
-			}
+			return;
 		}
-	}, [page, isForced, pageNumbers?.length, paginate]);
+
+		//If it is not first render, return;
+		if (!isForced) return;
+
+		//If current page during first render is two less or equals to max page
+		if (numberPage + 3 > pageNumberLength) {
+			setCurrentSlice(ARR_LENGTH - 3);
+		} else {
+			setCurrentSlice(numberPage - 1);
+			//Show that first render ended;
+			setIsForced(false);
+		}
+	}, [numberPage, isForced, pageNumberLength, paginate]);
 
 	useEffect(() => {
 		if (!isForced) {
 			paginate(currentSlice + 1);
-			setIsForced(false);
 		}
 	}, [currentSlice, paginate, isForced]);
 
@@ -74,11 +84,8 @@ const Pagination = () => {
 
 	const nextPage = () => {
 		setCurrentSlice((curState) => {
-			if (pageNumbers.length <= 3) {
-				return curState;
-			}
-			const min = curState + 3;
 			const maxArrayLenght = pageNumbers.length - 3;
+			const min = curState + 3;
 			return min > maxArrayLenght ? maxArrayLenght : min;
 		});
 	};
@@ -86,7 +93,7 @@ const Pagination = () => {
 	const slicedPageNumbers = pageNumbers.slice(currentSlice, currentSlice + 3);
 
 	return (
-		<div className="pagination-container">
+		<div>
 			<StyledPagination>
 				<PaginationArrow onClick={previousPage}>
 					<img src={leftArrowIcon} alt="Left arrow"></img>
