@@ -7,6 +7,7 @@ import {
 	PaginationNumber,
 	StyledPagination,
 } from "./styles/Pagination.styled";
+import { scrollTop } from "../util/scrollTop";
 
 const Pagination = () => {
 	const { page } = useParams();
@@ -25,8 +26,10 @@ const Pagination = () => {
 		}
 
 		setCurrentPage(currentSlice + 1);
+		scrollTop();
 
 		navigate(url);
+
 		//We skip here deps warning because 'navigate' will cause updates and bugs
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

@@ -9,7 +9,7 @@ const SkeletonLoading = () => {
 				sx={{ backgroundColor: "#303030" }}
 				variant="rounded"
 				width="100%"
-				height={230}
+				height={210}
 			/>
 		</Grid>
 	);

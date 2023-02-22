@@ -1,5 +1,4 @@
 import { useEffect, useReducer, useRef } from "react";
-import { json } from "react-router-dom";
 
 interface State<T> {
 	data?: T;

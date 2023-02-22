@@ -23,10 +23,10 @@ const Main = () => {
 	);
 
 	if (error) {
-		if (error.message === "No data fetched.") {
+		if (error.message === "No data") {
 			return (
 				<ErrorWrapper
-					error={{ title: "Error occured!", message: "No data found." }}
+					error={{ title: "Something went wrong!", message: "No data found." }}
 				/>
 			);
 		} else {

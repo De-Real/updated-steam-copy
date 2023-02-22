@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { json, LoaderFunctionArgs } from "react-router-dom";
 import { options } from "../api/options";
 import AppDetails from "../components/AppDetails/AppDetails";
+import { scrollTop } from "../util/scrollTop";
 
 const DetailedApp = () => {
+	useEffect(() => scrollTop(), []);
 	return <AppDetails />;
 };
 
@@ -12,15 +15,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 	const { pageId } = params;
 
 	//If app without ID we won't fetch any data
-	if (pageId?.split("-")[0] === "none") {
-		return null;
-	}
-
-	if (!pageId) {
-		return null;
-	}
-
-	if (isNaN(parseInt(pageId))) {
+	if (!pageId || pageId?.split("-")[0] === "none" || isNaN(parseInt(pageId))) {
 		return null;
 	}
 
