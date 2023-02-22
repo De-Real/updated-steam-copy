@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
-import { json } from "stream/consumers";
+import { json, useParams, useSearchParams } from "react-router-dom";
 import { options } from "../api/options";
 import MainApps from "../components/MainApps/MainApps";
 import ErrorWrapper from "../components/UI/ErrorWrapper";
-import Loading from "../components/UI/Loading";
 import useFetch from "../hooks/useFetch";
 
 import Box from "@mui/material/Box";
@@ -20,7 +18,7 @@ const Main = () => {
 	const searchParam = searchParams.get("search") || "Counter";
 
 	const { data, error } = useFetch<SteamApplicationInterface[]>(
-		`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page || 1}`,
+		`https://steam2.p.rapidapi.com/search/${searchParam}/page/${page}`,
 		options
 	);
 
@@ -32,7 +30,7 @@ const Main = () => {
 				/>
 			);
 		} else {
-			throw new Error(error.message);
+			throw json({}, { statusText: error.message });
 		}
 	}
 

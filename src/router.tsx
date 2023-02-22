@@ -16,13 +16,17 @@ export const router = createBrowserRouter(
 				{
 					path: "main",
 					children: [
-						// { index: true, element: <Navigate to="main/pages/1" /> },
-						// { path: "pages", element: <Navigate to="main/pages/1" /> },
+						{ index: true, element: <Navigate to="main/pages/1" /> },
+						{ path: "pages", element: <Navigate to="main/pages/1" /> },
 						{
 							path: "pages/:page",
 							element: <Main />,
-							// loader: appsLoader,
 							shouldRevalidate: () => false,
+						},
+						{
+							path: "pages/:page/detailed/",
+							loader: detailedAppLoader,
+							element: <Navigate to="/main/pages/1" />,
 						},
 						{
 							path: "pages/:page/detailed/:pageId",

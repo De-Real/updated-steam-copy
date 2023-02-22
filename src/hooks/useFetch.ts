@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef } from "react";
+import { json } from "react-router-dom";
 
 interface State<T> {
 	data?: T;
@@ -68,13 +69,16 @@ function useFetch<T = unknown>(url?: string, options?: RequestInit): State<T> {
 				const response = await fetch(url, options);
 
 				if (!response.ok) {
+					console.log(response);
 					throw new Error(response.statusText);
 				}
 
 				const data = (await response.json()) as T;
 
 				if (Array.isArray(data)) {
-					if (data.length === 0) throw new Error("No data fetched.");
+					if (data.length === 0) {
+						throw new Error("No data");
+					}
 				}
 
 				cache.current[url] = data;
