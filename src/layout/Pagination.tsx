@@ -1,28 +1,32 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import leftArrowIcon from "../assets/icon-pagination-arrow-left.svg";
 import rightArrowIcon from "../assets/icon-pagination-arrow-right.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useNavigation, useParams } from "react-router-dom";
 import {
 	PaginationArrow,
 	PaginationNumber,
 	StyledPagination,
 } from "./styles/Pagination.styled";
 import { scrollTop } from "../util/scrollTop";
+import { useAppSelector } from "../store/hooks";
+import { loading } from "../store/loadingSlice";
 
 const ARR_LENGTH = 20;
 
 const Pagination = () => {
-	const { page } = useParams();
-
-	const numberPage = page ? +page : undefined;
-
 	const [currentSlice, setCurrentSlice] = useState(1);
-
 	//First loading state
 	const [isForced, setIsForced] = useState(true);
 
 	const navigate = useNavigate();
+	const navigation = useNavigation();
 
+	const isLoading = useAppSelector(loading) || navigation.state === "loading";
+
+	const { page } = useParams();
+	const numberPage = page ? +page : undefined;
+
+	//Change url page parameter
 	const paginate = useCallback((pageNumber: number) => {
 		const searchParams = window.location.href.split("?")[1];
 
@@ -39,19 +43,24 @@ const Pagination = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const pageNumbers = Array.from({ length: ARR_LENGTH }, (_, i) => i + 1);
+	const pageNumbers = useMemo(
+		() => Array.from({ length: ARR_LENGTH }, (_, i) => i + 1),
+		[]
+	);
 
 	const { length: pageNumberLength } = pageNumbers;
 
 	//First loading data provider
 	useEffect(() => {
-		if (!numberPage) {
+		if (numberPage === undefined) {
 			return;
 		}
 
+		console.log(numberPage);
+
 		//If page in url is bigger than max possible page
-		if (numberPage > pageNumberLength) {
-			setCurrentSlice(0);
+		if (numberPage > pageNumberLength || numberPage <= 0) {
+			setCurrentSlice(1);
 			paginate(1);
 			return;
 		}
@@ -76,6 +85,8 @@ const Pagination = () => {
 	}, [currentSlice, paginate, isForced]);
 
 	const previousPage = () => {
+		setIsForced(false);
+		if (isLoading) return;
 		setCurrentSlice((curState) => {
 			const min = curState - 3;
 			return min < 0 ? 0 : min;
@@ -83,11 +94,18 @@ const Pagination = () => {
 	};
 
 	const nextPage = () => {
+		setIsForced(false);
+		if (isLoading) return;
 		setCurrentSlice((curState) => {
 			const maxArrayLenght = pageNumbers.length - 3;
 			const min = curState + 3;
 			return min > maxArrayLenght ? maxArrayLenght : min;
 		});
+	};
+
+	const pageClick = (page: number) => {
+		if (isLoading) return;
+		paginate(page);
 	};
 
 	const slicedPageNumbers = pageNumbers.slice(currentSlice, currentSlice + 3);
@@ -104,7 +122,7 @@ const Pagination = () => {
 					return (
 						<PaginationNumber
 							key={number}
-							onClick={() => paginate(number)}
+							onClick={pageClick.bind(null, number)}
 							choosen={isChoosen}
 						>
 							{number}

@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import likeListReducer from "./likeListSlice";
+import loadingReducer from "./loadingSlice";
 
 export const store = configureStore({
 	reducer: {
 		liked: likeListReducer,
+		loading: loadingReducer,
 	},
 });
 

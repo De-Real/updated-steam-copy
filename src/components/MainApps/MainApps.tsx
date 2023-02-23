@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectLikeList } from "../../store/likeListSlice";
+import { setIsLoading } from "../../store/loadingSlice";
 import { SteamApplicationInterface } from "../../types/fetchDataInterfaces";
 import { filterApps } from "../../util/filterApps";
 import { getNewId } from "../../util/getNewId";
@@ -17,12 +18,18 @@ type MainAppsProps = {
 const MainApps = ({ apps }: MainAppsProps) => {
 	const [searchParams] = useSearchParams();
 	const likeList = useAppSelector(selectLikeList);
+	const dispatch = useAppDispatch();
 
-	// if (!apps || apps.length === 0) {
-	// 	return <RenderLoading />;
-	// }
+	if (!apps || apps.length === 0) {
+		dispatch(setIsLoading(true));
+		return <RenderLoading />;
+	}
 
-	let filteredApps = filterApps(apps as SteamApplicationInterface[]);
+	if (apps && apps.length > 0) {
+		dispatch(setIsLoading(false));
+	}
+
+	let filteredApps = filterApps(apps);
 
 	const isLikeListParameter = searchParams.get("priority") === "like-list";
 
