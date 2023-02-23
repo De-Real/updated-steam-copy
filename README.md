@@ -1,46 +1,57 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
+# Steam copy app
 
-## Available Scripts
+It's an educational project that show primitive steam copy, where user can find certain games, sort them using different parameters, add games to like list. Also, detailed information about app can be provided. 
 
-In the project directory, you can run:
 
-### `npm start`
+## Demo
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Deployed version of this project you can see here https://de-real.github.io/updated-steam-copy/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Technologies
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project was created using this stack of technologies:
 
-### `npm run build`
+- React
+- TypeScript
+- Redux (Redux TK)
+- React Router (6.4+ using new version features)
+- MaterialUI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Steam API used in this project: https://rapidapi.com/psimavel/api/steam2/
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Details
 
-### `npm run eject`
+Steam copy app was created using external API, so most of unproper work are caused by API organization and its work. Some clarification:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* API is responsible for searching games, so client only send searching parameters and server return found games. This means that incorrection of returning game is the problem of API;
+* A lot of games are sent without own ID, so it's impossible to provide for them proper work (i.e. add them to like list or show details);
+* Amount of possible requests is strongly limited, no more than 10 request per minute allowed
+* Most of user cases was tested manually, but some bugs can occured
+* After loading some styles can disappear, it caused by Github Pages and can be fixed by developer
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+P.S. Bug when user can't return from app details using built browser navigation is known and is currently fixing. If bug still exist and you know how to fix it you can contact me: vinarchuk.a.v@gmail.com
+## Authors
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Created by Andrii Vynarchuk
+- [@de-real](https://github.com/De-Real)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Running
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Project was created using Create-React-App template
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To run this project run
+
+```bash
+  npm start
+```
+
+To build this project run
+
+```bash
+  npm run build
+```
+
