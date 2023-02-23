@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import searchIcon from "../../assets/icon-search.svg";
-import { getAllSearchParams } from "../../util/getAllSearchParams";
 import { StyledForm } from "../styles/HeaderSearch.styled";
 
 const QUERY_PARAMETER = "search";
@@ -24,13 +23,10 @@ const HeaderSearch = () => {
 			if (pageId) return;
 
 			if (!inputValue && searchParams.has(QUERY_PARAMETER)) {
-				console.log("CHECK 1");
 				searchParams.delete(QUERY_PARAMETER);
 			} else if (!inputValue) {
-				console.log("CHECK 2");
 				return;
 			} else if (!searchParams.has(QUERY_PARAMETER)) {
-				console.log("CHECK 3");
 				searchParams.append(QUERY_PARAMETER, inputValue);
 			} else {
 				searchParams.set(QUERY_PARAMETER, inputValue);

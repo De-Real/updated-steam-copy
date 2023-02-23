@@ -56,8 +56,6 @@ const Pagination = () => {
 			return;
 		}
 
-		console.log(numberPage);
-
 		//If page in url is bigger than max possible page
 		if (numberPage > pageNumberLength || numberPage <= 0) {
 			setCurrentSlice(1);

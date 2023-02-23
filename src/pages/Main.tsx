@@ -28,8 +28,6 @@ const Main = () => {
 		}
 	}
 
-	// const data = [] as SteamApplicationInterface[];
-
 	return (
 		<>
 			<LinearLoading />

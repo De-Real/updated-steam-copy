@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useRouteError } from "react-router-dom";
-import styled from "styled-components";
 
-import steamLogo from "../assets/steam-logo.png";
 import HeaderLogo from "../components/Header/HeaderLogo";
 import { NotFoundWrapper } from "./styles/NotFound.styled";
 

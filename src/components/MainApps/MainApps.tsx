@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectLikeList } from "../../store/likeListSlice";

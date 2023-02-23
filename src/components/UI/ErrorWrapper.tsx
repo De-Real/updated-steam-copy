@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import errorPicture from "../../assets/main-error.jpg";

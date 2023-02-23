@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { getAllSearchParams } from "../../util/getAllSearchParams";
+
 import {
 	StyledHeaderButtonGroup,
 	StyledHeaderButton,
