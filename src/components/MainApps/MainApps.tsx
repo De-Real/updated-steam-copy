@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectLikeList } from "../../store/likeListSlice";
-import { setIsLoading } from "../../store/loadingSlice";
+import { loading, setIsLoading } from "../../store/loadingSlice";
 import { SteamApplicationInterface } from "../../types/fetchDataInterfaces";
 import { filterApps } from "../../util/filterApps";
 import { getNewId } from "../../util/getNewId";
@@ -18,15 +18,19 @@ type MainAppsProps = {
 const MainApps = ({ apps }: MainAppsProps) => {
 	const [searchParams] = useSearchParams();
 	const likeList = useAppSelector(selectLikeList);
+	const isLoading = useAppSelector(loading);
 	const dispatch = useAppDispatch();
 
-	if (!apps || apps.length === 0) {
-		dispatch(setIsLoading(true));
-		return <RenderLoading />;
-	}
+	useEffect(() => {
+		if (!apps || apps.length === 0) {
+			dispatch(setIsLoading(true));
+		} else {
+			dispatch(setIsLoading(false));
+		}
+	}, [apps, dispatch]);
 
-	if (apps && apps.length > 0) {
-		dispatch(setIsLoading(false));
+	if (isLoading || !apps) {
+		return <RenderLoading />;
 	}
 
 	let filteredApps = filterApps(apps);
