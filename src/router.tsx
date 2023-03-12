@@ -1,16 +1,22 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import NotFound from "./layout/NotFound";
 
 import RootLayout from "./layout/RootLayout";
-import DetailedApp, { loader as detailedAppLoader } from "./pages/DetailedApp";
-import Main from "./pages/Main";
+
+const NotFound = lazy(() => import("./layout/NotFound"));
+const Main = lazy(() => import("./pages/Main"));
+const DetailedApp = lazy(() => import("./pages/DetailedApp"));
 
 export const router = createBrowserRouter(
 	[
 		{
 			path: "/",
 			element: <RootLayout />,
-			errorElement: <NotFound />,
+			errorElement: (
+				<Suspense fallback={<div>Loading...</div>}>
+					<NotFound />
+				</Suspense>
+			),
 			children: [
 				{ index: true, element: <Navigate to="main/pages/1" /> },
 				{
@@ -20,19 +26,27 @@ export const router = createBrowserRouter(
 						{ path: "pages", element: <Navigate to="main/pages/1" /> },
 						{
 							path: "pages/:page",
-							element: <Main />,
-							shouldRevalidate: () => false,
+							element: (
+								<Suspense fallback={<div> Loading...</div>}>
+									<Main />
+								</Suspense>
+							),
 						},
 						{
 							path: "pages/:page/detailed/",
-							loader: detailedAppLoader,
 							element: <Navigate to="/main/pages/1" />,
 						},
 						{
 							path: "pages/:page/detailed/:pageId",
-							loader: detailedAppLoader,
-							element: <DetailedApp />,
-							shouldRevalidate: () => false,
+							loader: (meta) =>
+								import("./pages/DetailedApp").then((module) =>
+									module.loader(meta)
+								),
+							element: (
+								<Suspense fallback={<div> Loading...</div>}>
+									<DetailedApp />
+								</Suspense>
+							),
 						},
 					],
 				},
